@@ -1,0 +1,366 @@
+bash -lc python - <<'PY'
+from pathlib import Path
+html = Path('/mnt/data/index_multilang.html').read_text(encoding='utf-8')
+# Basic cleanups and enhancements via replacements
+html = html.replace('<html lang="de">\n<link rel="icon" href="portraitforicon.ico" type="image/x-icon">\n<title>Ruben Hawer </title>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">\n<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">\n<style>\nbody {font-family: "Lato", sans-serif}\n.mySlides {display: none}\n.lang-switcher {\n  margin-left: auto;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.lang-btn {\n  border: none;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n  padding: 12px 10px;\n  font-size: 14px;\n}\n.lang-btn:hover, .lang-btn.active {\n  background: #444;\n}\n@media (max-width: 600px) {\n  .lang-switcher {\n    width: 100%;\n    justify-content: center;\n    border-top: 1px solid #333;\n  }\n}\n</style>\n<body>', '''<html lang="de">
+<head>
+<link rel="icon" href="portraitforicon.ico" type="image/x-icon">
+<title>Ruben Hawer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Official website of conductor Ruben Hawer">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html {scroll-behavior: smooth;}
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+.lang-switcher {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lang-btn {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 12px 10px;
+  font-size: 14px;
+  letter-spacing: .04em;
+}
+.lang-btn:hover, .lang-btn.active {
+  background: #444;
+}
+.section-anchor-offset {scroll-margin-top: 72px;}
+.event-card {height: 100%; display: flex; flex-direction: column;}
+.event-card .w3-button {margin-top: auto;}
+.contact-link {text-decoration: none;}
+.contact-link:hover {text-decoration: underline;}
+@media (max-width: 600px) {
+  .lang-switcher {
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid #333;
+  }
+}
+</style>
+</head>
+<body>''')
+
+# anchors cleanup
+html = html.replace('href="#ABOUT ME"', 'href="#about"')
+html = html.replace('href="#CALENDAR"', 'href="#calendar"')
+html = html.replace('href="#PHOTOS"', 'href="#photos"')
+html = html.replace('href="#MEDIA"', 'href="#media"')
+html = html.replace('href="#CONTACT"', 'href="#contact"')
+html = html.replace('<div id="ABOUT ME">', '<div id="about" class="section-anchor-offset">')
+html = html.replace('<div class="w3-black" id="CALENDAR">', '<div class="w3-black section-anchor-offset" id="calendar">')
+html = html.replace('<div class="w3-white" id="PHOTOS">', '<div class="w3-white section-anchor-offset" id="photos">')
+html = html.replace('<div class="w3-black" id="MEDIA">', '<div class="w3-black section-anchor-offset" id="media">')
+html = html.replace('<div class="w3-white" id="CONTACT">', '<div class="w3-white section-anchor-offset" id="contact">')
+html = html.replace('id="PHOTOS"', 'id="photos-inner"', 1)
+
+# add home button data label unchanged
+html = html.replace('title="Toggle Navigation Menu"', 'title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu"')
+
+# add event-card class to containers
+html = html.replace('class="w3-container w3-white">', 'class="w3-container w3-white event-card"')
+
+# button attrs for translation
+html = html.replace('>Details/Tickets</button>', ' data-i18n="details_tickets">Details/Tickets</button>')
+html = html.replace('>Download</button>', ' data-i18n="download">Download</button>')
+html = html.replace('>Watch here</button>', ' data-i18n="watch_here">Watch here</button>')
+
+# localize static date labels with data-date attrs manually
+repls = {
+'<p><b>Thu 26 March 2026</b></p>':'<p><b class="event-date" data-date="2026-03-26"></b></p>',
+'<p><b>Sat 2 May 2026 (Premiere)</b></p>':'<p><b><span class="event-date" data-date="2026-05-02"></span> <span class="event-premiere" data-i18n="premiere_label">(Premiere)</span></b></p>',
+'<p><b>Sun 18 January 2026</b></p>':'<p><b class="event-date" data-date="2026-01-18"></b></p>',
+'<p><b>Sat 24 January 2026</b></p>':'<p><b class="event-date" data-date="2026-01-24"></b></p>',
+'<p><b>Fri 26 December 2025</b></p>':'<p><b class="event-date" data-date="2025-12-26"></b></p>',
+'<p><b>Sun 30 November 2025</b></p>':'<p><b class="event-date" data-date="2025-11-30"></b></p>',
+'<p><b>Fri 21 November 2025</b></p>':'<p><b class="event-date" data-date="2025-11-21"></b></p>',
+'<p><b>Sat 19 July 2025</b></p>':'<p><b class="event-date" data-date="2025-07-19"></b></p>',
+'<p><b>Wed 16 July 2025</b></p>':'<p><b class="event-date" data-date="2025-07-16"></b></p>',
+'<p><b>Sat 12 July 2025</b></p>':'<p><b class="event-date" data-date="2025-07-12"></b></p>',
+'<p><b>Sun 06 July 2025</b></p>':'<p><b class="event-date" data-date="2025-07-06"></b></p>',
+'<p><b>Fri 04 July 2025</b></p>':'<p><b class="event-date" data-date="2025-07-04"></b></p>',
+'<p><b>Sat 28 June 2025</b></p>':'<p><b class="event-date" data-date="2025-06-28"></b></p>',
+'<p><b>Sat 26 April 2025</b></p>':'<p><b class="event-date" data-date="2025-04-26"></b></p>',
+'<p><b>Fri 25 April 2025</b></p>':'<p><b class="event-date" data-date="2025-04-25"></b></p>',
+'<p><b>Wed 12 February 2025</b></p>':'<p><b class="event-date" data-date="2025-02-12"></b></p>',
+'<p><b>Sun 26 January 2025</b></p>':'<p><b class="event-date" data-date="2025-01-26"></b></p>',
+'<p><b>Fri 24 January 2025</b></p>':'<p><b class="event-date" data-date="2025-01-24"></b></p>',
+'<p><b>Wed 18 December 2024</b></p>':'<p><b class="event-date" data-date="2024-12-18"></b></p>',
+'<p><b>Sun 15 December 2024</b></p>':'<p><b class="event-date" data-date="2024-12-15"></b></p>',
+'<p><b>Thu 21 November 2024</b></p>':'<p><b><span class="event-date" data-date="2024-11-21"></span> <span class="event-premiere" data-i18n="premiere_label_small">(premiere)</span></b></p>',
+'<p><b> 1-3 July 2024</b></p>':'<p><b class="event-date-range" data-date-start="2024-07-01" data-date-end="2024-07-03"></b></p>',
+}
+for a,b in repls.items():
+    html = html.replace(a,b)
+
+# update media malformed block
+html = html.replace('<div\n      <h3 class="w3-wide w3-center">Mendelssohn: 3rd Symphony, 2nd Mvt</h3>\n\t  <p>\n\t    <button class="w3-button w3-black w3-margin-bottom watch-btn" onclick="window.open(\'https://youtu.be/kOe74V6fth4\', \'_blank\');" data-i18n="watch_here">Watch here</button> </p>      \n      </div>', '<div>\n      <h3 class="w3-wide w3-center">Mendelssohn: Symphony No. 3, II</h3>\n      <p class="w3-center">\n        <button class="w3-button w3-black w3-margin-bottom watch-btn" onclick="window.open(\'https://youtu.be/kOe74V6fth4\', \'_blank\');" data-i18n="watch_here">Watch here</button>\n      </p>\n      </div>')
+# fallback if exact not found
+html = html.replace('<div\n      <h3 class="w3-wide w3-center">Mendelssohn: 3rd Symphony, 2nd Mvt</h3>', '<div>\n      <h3 class="w3-wide w3-center">Mendelssohn: Symphony No. 3, II</h3>')
+
+# improve contact links
+html = html.replace('contact@rubenhawer.com <br>', '<a class="contact-link" href="mailto:contact@rubenhawer.com">contact@rubenhawer.com</a> <br>')
+
+# remove ticket modal block entirely
+import re
+html = re.sub(r'\n  <!-- Ticket Modal -->.*?<!-- The PHOTOS Section -->', '\n \n <!-- The PHOTOS Section -->', html, flags=re.S)
+
+# Replace script fully with more robust one
+html = re.sub(r'<script>.*?</script>', '''<script>
+const translations = {
+  de: {
+    page_title: "Ruben Hawer | Dirigent",
+    meta_description: "Offizielle Website des Dirigenten Ruben Hawer",
+    nav_home: "START",
+    nav_about: "ÜBER MICH",
+    nav_calendar: "KALENDER",
+    nav_photos: "FOTOS",
+    nav_media: "MEDIEN",
+    nav_contact: "KONTAKT",
+    hero_role: "Dirigent",
+    about_title: "Über mich",
+    about_subtitle: "Ruben Hawer Dirigent",
+    about_text: `Ruben Hawer wurde 1998 in Antwerpen, Belgien, geboren. Mit sieben Jahren begann er Violine zu spielen, und bereits mit fünfzehn nahm er an der Orchesterakademie des Belgischen Nationalorchesters teil. Außerdem sang er acht Jahre lang professionell im Kinderchor der Flämischen Oper und übernahm dort bedeutende Solorollen als Knabensopran. Diese frühen Erfahrungen ermöglichten ihm die Zusammenarbeit mit einigen der besten Orchester Belgiens.<br><br>2014 erhielt er vom belgischen Kulturministerium das „Topcultuurstatuut“, eine Auszeichnung für außergewöhnlich talentierte junge Künstler. Dadurch konnte er parallel zu seiner humanistischen Schulausbildung mit Altgriechisch und Mathematik ein Bachelorstudium Violine an der LUCA School of Arts Leuven bei Elisa Kawaguti aufnehmen.<br><br>2018 verlagerte Ruben Hawer seinen Schwerpunkt auf das Dirigieren und zog nach Salzburg. An der Universität Mozarteum studierte er Orchesterdirigieren bei Ion Marin, Bruno Weil, Alexander Drčar, Johannes Kalitzke und Reinhard Goebel sowie Chordirigieren bei Jörn Andresen und Karl Kamper. Zusätzliche Impulse erhielt er in Meisterkursen bei Alan Gilbert, Alexander Soddy, Vladimir Fedoseev, Maxim Vengerov und Antoni Ros Marbà.<br><br>Als Dirigent arbeitete Ruben Hawer mit Ensembles wie den Bad Reichenhall Philharmonikern, dem Mozarteumorchester Salzburg, dem Österreichischen Ensemble für Neue Musik (OENM), Ensemble Multilatérale, dem New Art and Music Ensemble Salzburg (NAMES), dem Sinfonieorchester der Universität Mozarteum und dem Savaria Szimfonikus Zenekar zusammen. Er assistierte außerdem den Wiener Symphonikern und arbeitete mit den Theaterchören der Semperoper Dresden und des Gärtnerplatztheaters München.<br><br>Derzeit ist Ruben Chordirektor und Kapellmeister am Theater Hof, wo ihm die musikalische Leitung von <i>Peterchens Mondfahrt</i> anvertraut wurde und wo er mehrere Vorstellungen verschiedener Produktionen dirigierte, darunter Bizets <i>Les Pêcheurs de Perles</i> und Humperdincks <i>Dornröschen</i>. Zudem ist er Chefdirigent des Jungen Mozart Orchesters und des Mozart Kinderorchesters Salzburg, mit denen er 2025 ein Konzert bei den Salzburger Festspielen leitete.`,
+    calendar_title: "Kalender",
+    upcoming_title: "Bevorstehende Konzerte",
+    past_title: "Vergangene Konzerte",
+    premiere_label: "(Premiere)",
+    premiere_label_small: "(Premiere)",
+    photos_title: "Fotos",
+    photos_subtitle: "können für professionelle Zwecke verwendet werden",
+    portrait_photo: "Porträtfoto",
+    media_title: "MEDIEN",
+    media_subtitle: "Live-Mitschnitte",
+    contact_title: "KONTAKT",
+    contact_subtitle: "Fan oder Booking? Schreiben Sie mir!",
+    phone_label: "Telefon",
+    email_label: "E-Mail",
+    powered_by: "Powered by",
+    details_tickets: "Details/Tickets",
+    download: "Download",
+    watch_here: "Hier ansehen"
+  },
+  en: {
+    page_title: "Ruben Hawer | Conductor",
+    meta_description: "Official website of conductor Ruben Hawer",
+    nav_home: "HOME",
+    nav_about: "ABOUT ME",
+    nav_calendar: "CALENDAR",
+    nav_photos: "PHOTOS",
+    nav_media: "MEDIA",
+    nav_contact: "CONTACT",
+    hero_role: "Conductor",
+    about_title: "About me",
+    about_subtitle: "Ruben Hawer Conductor",
+    about_text: `Ruben Hawer was born in Antwerp, Belgium, in 1998. He began studying violin at the age of seven, and by fifteen, he took part in the orchestra academy of the Belgian National Orchestra. He also sang professionally for eight years with the children's choir of the Flemish Opera, taking on major solo roles as a boy soprano. These early experiences gave him the opportunity to collaborate with some of Belgium’s finest orchestras.<br><br>In 2014, he was awarded the "Topcultuurstatuut" by the Belgian Ministry of Culture, a distinction for exceptionally talented young artists. This recognition enabled him to pursue a bachelor's degree in violin at the LUCA School of Arts Leuven under Elisa Kawaguti, alongside his humanistic high school education in Ancient Greek and Mathematics.<br><br>In 2018, Ruben Hawer shifted his focus to conducting and moved to Salzburg. At the University Mozarteum, he studied orchestral conducting with Ion Marin, Bruno Weil, Alexander Drcar, Johannes Kalitzke and Reinhard Goebel, as well as choral conducting with Jörn Andresen and Karl Kamper. He further enriched his education by participating in masterclasses with Alan Gilbert, Alexander Soddy, Vladimir Fedoseev, Maxim Vengerov and Antoni Ros Marbà.<br><br>As a conductor, Ruben Hawer has worked with ensembles including the Bad Reichenhall Philharmoniker, the Mozarteum Orchestra Salzburg, the Österreichisches Ensemble für Neue Musik (OENM), Ensemble Multilatérale, the New Art and Music Ensemble Salzburg (NAMES), the Symphony Orchestra of the University Mozarteum and the Savaria Szimfonikus Zenekar. He has also assisted the Vienna Symphony Orchestra and collaborated with the theater choirs of the Semperoper Dresden and the Gärtnerplatztheater Munich.<br><br>Currently, Ruben is choral director and Kapellmeister at Theater Hof in Germany, where he was entrusted with the musical direction of <i>Peterchens Mondfahrt</i> and has conducted several performances of various productions, including Bizet’s <i>Les Pêcheurs de Perles</i> and Humperdinck’s <i>Dornröschen</i>. He also serves as chief conductor of both the Junges Mozart Orchester and the Mozart Kinderorchester Salzburg, with which he led a concert at the 2025 Salzburg Festival.`,
+    calendar_title: "Calendar",
+    upcoming_title: "Upcoming Concerts",
+    past_title: "Past Concerts",
+    premiere_label: "(Premiere)",
+    premiere_label_small: "(Premiere)",
+    photos_title: "Photos",
+    photos_subtitle: "can be used for professional purposes",
+    portrait_photo: "Portrait photo",
+    media_title: "MEDIA",
+    media_subtitle: "Live recordings",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan or booking? Drop a note!",
+    phone_label: "Phone",
+    email_label: "Email",
+    powered_by: "Powered by",
+    details_tickets: "Details/Tickets",
+    download: "Download",
+    watch_here: "Watch here"
+  },
+  fr: {
+    page_title: "Ruben Hawer | Chef d’orchestre",
+    meta_description: "Site officiel du chef d’orchestre Ruben Hawer",
+    nav_home: "ACCUEIL",
+    nav_about: "À PROPOS",
+    nav_calendar: "CALENDRIER",
+    nav_photos: "PHOTOS",
+    nav_media: "MÉDIAS",
+    nav_contact: "CONTACT",
+    hero_role: "Chef d’orchestre",
+    about_title: "À propos",
+    about_subtitle: "Ruben Hawer Chef d’orchestre",
+    about_text: `Ruben Hawer est né à Anvers, en Belgique, en 1998. Il commence l’étude du violon à l’âge de sept ans et, à quinze ans déjà, il participe à l’académie orchestrale de l’Orchestre national de Belgique. Il chante également pendant huit ans au sein du chœur d’enfants de l’Opéra flamand, où il interprète d’importants rôles solistes de soprano garçon. Ces premières expériences lui permettent de collaborer avec plusieurs des meilleurs orchestres belges.<br><br>En 2014, il reçoit du ministère belge de la Culture le « Topcultuurstatuut », une distinction réservée aux jeunes artistes exceptionnellement talentueux. Cette reconnaissance lui permet d’entreprendre un bachelier en violon à la LUCA School of Arts Leuven auprès d’Elisa Kawaguti, parallèlement à ses études secondaires humanistes en grec ancien et en mathématiques.<br><br>En 2018, Ruben Hawer se tourne vers la direction d’orchestre et s’installe à Salzbourg. À l’Université Mozarteum, il étudie la direction d’orchestre avec Ion Marin, Bruno Weil, Alexander Drčar, Johannes Kalitzke et Reinhard Goebel, ainsi que la direction de chœur avec Jörn Andresen et Karl Kamper. Il complète sa formation grâce à des masterclasses avec Alan Gilbert, Alexander Soddy, Vladimir Fedoseev, Maxim Vengerov et Antoni Ros Marbà.<br><br>Comme chef, Ruben Hawer a travaillé avec des ensembles tels que les Bad Reichenhall Philharmoniker, le Mozarteumorchester Salzburg, l’Österreichisches Ensemble für Neue Musik (OENM), Ensemble Multilatérale, le New Art and Music Ensemble Salzburg (NAMES), l’Orchestre symphonique de l’Université Mozarteum et le Savaria Szimfonikus Zenekar. Il a également assisté l’Orchestre symphonique de Vienne et collaboré avec les chœurs de la Semperoper de Dresde et du Gärtnerplatztheater de Munich.<br><br>Actuellement, Ruben est chef de chœur et Kapellmeister au Theater Hof en Allemagne, où il a assuré la direction musicale de <i>Peterchens Mondfahrt</i> et dirigé plusieurs représentations de diverses productions, notamment <i>Les Pêcheurs de Perles</i> de Bizet et <i>Dornröschen</i> de Humperdinck. Il est également chef principal du Junges Mozart Orchester et du Mozart Kinderorchester Salzburg, avec lesquels il a dirigé un concert au Festival de Salzbourg 2025.`,
+    calendar_title: "Calendrier",
+    upcoming_title: "Concerts à venir",
+    past_title: "Concerts passés",
+    premiere_label: "(Première)",
+    premiere_label_small: "(Première)",
+    photos_title: "Photos",
+    photos_subtitle: "peuvent être utilisées à des fins professionnelles",
+    portrait_photo: "Photo de portrait",
+    media_title: "MÉDIAS",
+    media_subtitle: "Enregistrements live",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan ou booking ? Écrivez-moi !",
+    phone_label: "Téléphone",
+    email_label: "E-mail",
+    powered_by: "Powered by",
+    details_tickets: "Détails/Billets",
+    download: "Télécharger",
+    watch_here: "Voir ici"
+  },
+  nl: {
+    page_title: "Ruben Hawer | Dirigent",
+    meta_description: "Officiële website van dirigent Ruben Hawer",
+    nav_home: "HOME",
+    nav_about: "OVER MIJ",
+    nav_calendar: "KALENDER",
+    nav_photos: "FOTO'S",
+    nav_media: "MEDIA",
+    nav_contact: "CONTACT",
+    hero_role: "Dirigent",
+    about_title: "Over mij",
+    about_subtitle: "Ruben Hawer Dirigent",
+    about_text: `Ruben Hawer werd in 1998 geboren in Antwerpen, België. Op zevenjarige leeftijd begon hij viool te studeren en op zijn vijftiende nam hij al deel aan de orkestacademie van het Belgisch Nationaal Orkest. Daarnaast zong hij acht jaar lang professioneel bij het kinderkoor van de Vlaamse Opera, waar hij belangrijke solorollen vertolkte als jongenssopraan. Deze vroege ervaringen gaven hem de kans om samen te werken met enkele van de beste orkesten van België.<br><br>In 2014 ontving hij van het Belgische ministerie van Cultuur het "Topcultuurstatuut", een onderscheiding voor uitzonderlijk getalenteerde jonge kunstenaars. Dankzij deze erkenning kon hij, naast zijn humaniora met Oudgrieks en wiskunde, een bachelor viool volgen aan LUCA School of Arts Leuven bij Elisa Kawaguti.<br><br>In 2018 verlegde Ruben Hawer zijn focus naar directie en verhuisde hij naar Salzburg. Aan de Universität Mozarteum studeerde hij orkestdirectie bij Ion Marin, Bruno Weil, Alexander Drčar, Johannes Kalitzke en Reinhard Goebel, en koordirectie bij Jörn Andresen en Karl Kamper. Verder verdiepte hij zich via masterclasses met Alan Gilbert, Alexander Soddy, Vladimir Fedoseev, Maxim Vengerov en Antoni Ros Marbà.<br><br>Als dirigent werkte Ruben Hawer met ensembles als de Bad Reichenhall Philharmoniker, het Mozarteumorchester Salzburg, het Österreichisches Ensemble für Neue Musik (OENM), Ensemble Multilatérale, het New Art and Music Ensemble Salzburg (NAMES), het Symfonieorkest van de Universität Mozarteum en het Savaria Szimfonikus Zenekar. Hij assisteerde ook de Wiener Symphoniker en werkte samen met de theaterkoren van de Semperoper Dresden en het Gärtnerplatztheater München.<br><br>Momenteel is Ruben koordirigent en Kapellmeister aan Theater Hof in Duitsland, waar hij verantwoordelijk was voor de muzikale leiding van <i>Peterchens Mondfahrt</i> en meerdere voorstellingen dirigeerde, waaronder Bizets <i>Les Pêcheurs de Perles</i> en Humperdincks <i>Dornröschen</i>. Daarnaast is hij chef-dirigent van zowel het Junges Mozart Orchester als het Mozart Kinderorchester Salzburg, waarmee hij in 2025 een concert leidde tijdens de Salzburger Festspiele.`,
+    calendar_title: "Kalender",
+    upcoming_title: "Komende concerten",
+    past_title: "Vorige concerten",
+    premiere_label: "(Première)",
+    premiere_label_small: "(Première)",
+    photos_title: "Foto's",
+    photos_subtitle: "kunnen voor professionele doeleinden worden gebruikt",
+    portrait_photo: "Portretfoto",
+    media_title: "MEDIA",
+    media_subtitle: "Live-opnames",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan of booking? Stuur gerust een bericht!",
+    phone_label: "Telefoon",
+    email_label: "E-mail",
+    powered_by: "Powered by",
+    details_tickets: "Details/Tickets",
+    download: "Downloaden",
+    watch_here: "Hier bekijken"
+  }
+};
+
+const DATE_FORMATS = {
+  de: { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' },
+  en: { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' },
+  fr: { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' },
+  nl: { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }
+};
+
+function getInitialLanguage() {
+  const params = new URLSearchParams(window.location.search);
+  const fromQuery = params.get('lang');
+  if (fromQuery && translations[fromQuery]) return fromQuery;
+  const saved = localStorage.getItem('siteLanguage');
+  if (saved && translations[saved]) return saved;
+  const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  return translations[browser] ? browser : 'en';
+}
+
+function formatSingleDate(dateString, lang) {
+  const date = new Date(`${dateString}T12:00:00`);
+  return new Intl.DateTimeFormat(lang, DATE_FORMATS[lang] || DATE_FORMATS.en).format(date);
+}
+
+function formatRangeDate(startString, endString, lang) {
+  const start = new Date(`${startString}T12:00:00`);
+  const end = new Date(`${endString}T12:00:00`);
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  if (lang === 'de') {
+    return sameMonth
+      ? `${start.getDate()}–${end.getDate()}. ${new Intl.DateTimeFormat('de', { month: 'long', year: 'numeric' }).format(start)}`
+      : `${formatSingleDate(startString, lang)} – ${formatSingleDate(endString, lang)}`;
+  }
+  if (lang === 'fr') {
+    return sameMonth
+      ? `${start.getDate()}–${end.getDate()} ${new Intl.DateTimeFormat('fr', { month: 'long', year: 'numeric' }).format(start)}`
+      : `${formatSingleDate(startString, lang)} – ${formatSingleDate(endString, lang)}`;
+  }
+  if (lang === 'nl') {
+    return sameMonth
+      ? `${start.getDate()}–${end.getDate()} ${new Intl.DateTimeFormat('nl', { month: 'long', year: 'numeric' }).format(start)}`
+      : `${formatSingleDate(startString, lang)} – ${formatSingleDate(endString, lang)}`;
+  }
+  return sameMonth
+    ? `${start.getDate()}–${end.getDate()} ${new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' }).format(start)}`
+    : `${formatSingleDate(startString, lang)} – ${formatSingleDate(endString, lang)}`;
+}
+
+function applyTranslations(lang) {
+  const t = translations[lang] || translations.en;
+  document.documentElement.lang = lang;
+  document.title = t.page_title;
+  document.querySelector('meta[name="description"]').setAttribute('content', t.meta_description);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key]) el.textContent = t[key];
+  });
+
+  const aboutText = document.getElementById('aboutText');
+  if (aboutText) aboutText.innerHTML = t.about_text;
+
+  document.querySelectorAll('.event-date').forEach(el => {
+    el.textContent = formatSingleDate(el.dataset.date, lang);
+  });
+  document.querySelectorAll('.event-date-range').forEach(el => {
+    el.textContent = formatRangeDate(el.dataset.dateStart, el.dataset.dateEnd, lang);
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+  localStorage.setItem('siteLanguage', lang);
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url);
+}
+
+function setLanguage(lang) {
+  applyTranslations(lang);
+}
+
+var myIndex = 0;
+carousel();
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName('mySlides');
+  for (i = 0; i < x.length; i++) x[i].style.display = 'none';
+  myIndex++;
+  if (myIndex > x.length) myIndex = 1;
+  x[myIndex - 1].style.display = 'block';
+  setTimeout(carousel, 4000);
+}
+
+function myFunction() {
+  var x = document.getElementById('navDemo');
+  if (x.className.indexOf('w3-show') == -1) {
+    x.className += ' w3-show';
+  } else {
+    x.className = x.className.replace(' w3-show', '');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+  applyTranslations(getInitialLanguage());
+});
+</script>''', html, flags=re.S)
+
+# add data-lang attributes to buttons
+html = html.replace("<button class=\"lang-btn\" onclick=\"setLanguage('de')\" id=\"btn-de\">DE</button>", '<button class="lang-btn" data-lang="de" id="btn-de">DE</button>')
+html = html.replace("<button class=\"lang-btn\" onclick=\"setLanguage('en')\" id=\"btn-en\">EN</button>", '<button class="lang-btn" data-lang="en" id="btn-en">EN</button>')
+html = html.replace("<button class=\"lang-btn\" onclick=\"setLanguage('fr')\" id=\"btn-fr\">FR</button>", '<button class="lang-btn" data-lang="fr" id="btn-fr">FR</button>')
+html = html.replace("<button class=\"lang-btn\" onclick=\"setLanguage('nl')\" id=\"btn-nl\">NL</button>", '<button class="lang-btn" data-lang="nl" id="btn-nl">NL</button>')
+
+Path('/mnt/data/index_multilang_v2.html').write_text(html, encoding='utf-8')
+print('written', len(html))
+PY
