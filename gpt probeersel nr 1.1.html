@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="portraitforicon.ico" type="image/x-icon">
+<title>Ruben Hawer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Official website of conductor Ruben Hawer">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+html { scroll-behavior: smooth; }
+body { font-family: "Lato", sans-serif; }
+.mySlides { display: none; }
+
+.lang-switcher {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 8px;
+}
+
+.lang-switcher button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.35);
+  color: white;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.lang-switcher button.active {
+  background: white;
+  color: black;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.calendar-card {
+  background: white;
+  color: black;
+  padding: 18px 16px 16px 16px;
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.calendar-date {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.calendar-place {
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.calendar-title {
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.calendar-subtitle {
+  opacity: 0.75;
+  margin-bottom: 14px;
+}
+
+.calendar-button {
+  margin-top: auto;
+}
+
+@media (max-width: 992px) {
+  .calendar-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lang-switcher {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 0 10px 0;
+  }
+
+  .w3-bar .w3-bar-item.logo-home {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.hero-name {
+  text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+       href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+
+    <a href="#" class="w3-bar-item w3-button w3-padding-large logo-home">HOME</a>
+    <a href="#ABOUT-ME" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-i18n="nav_about">ABOUT ME</a>
+    <a href="#CALENDAR" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-i18n="nav_calendar">CALENDAR</a>
+    <a href="#PHOTOS" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-i18n="nav_photos">PHOTOS</a>
+    <a href="#MEDIA" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-i18n="nav_media">MEDIA</a>
+    <a href="#CONTACT" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-i18n="nav_contact">CONTACT</a>
+
+    <div class="lang-switcher w3-hide-small">
+      <button type="button" onclick="setLanguage('de')" id="btn-de">DE</button>
+      <button type="button" onclick="setLanguage('en')" id="btn-en">EN</button>
+      <button type="button" onclick="setLanguage('fr')" id="btn-fr">FR</button>
+      <button type="button" onclick="setLanguage('nl')" id="btn-nl">NL</button>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="#ABOUT-ME" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()" data-i18n="nav_about">ABOUT ME</a>
+  <a href="#CALENDAR" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()" data-i18n="nav_calendar">CALENDAR</a>
+  <a href="#PHOTOS" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()" data-i18n="nav_photos">PHOTOS</a>
+  <a href="#MEDIA" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()" data-i18n="nav_media">MEDIA</a>
+  <a href="#CONTACT" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()" data-i18n="nav_contact">CONTACT</a>
+
+  <div class="lang-switcher">
+    <button type="button" onclick="setLanguage('de')">DE</button>
+    <button type="button" onclick="setLanguage('en')">EN</button>
+    <button type="button" onclick="setLanguage('fr')">FR</button>
+    <button type="button" onclick="setLanguage('nl')">NL</button>
+  </div>
+</div>
+
+<!-- Automatic Slideshow Images -->
+<div class="mySlides w3-display-container w3-center">
+  <img src="df1.jpg" style="width:100%">
+  <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+    <h1 class="hero-name">Ruben Hawer</h1>
+  </div>
+</div>
+
+<div class="mySlides w3-display-container w3-center">
+  <img src="df2.jpg" style="width:100%">
+  <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+    <h1 class="hero-name">Ruben Hawer</h1>
+  </div>
+</div>
+
+<div class="mySlides w3-display-container w3-center">
+  <img src="df3.jpg" style="width:100%">
+  <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+    <h1 class="hero-name">Ruben Hawer</h1>
+  </div>
+</div>
+
+<!-- ABOUT ME -->
+<div id="ABOUT-ME">
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
+    <h2 class="w3-wide" data-i18n="about_title">About me</h2>
+    <p class="w3-justify" data-i18n="about_text">
+      Ruben Hawer is a Dutch conductor. He studied orchestral conducting with Prof. Ulrich Windfuhr in Hamburg and Prof. Jorge Rotter in Salzburg. He also received important musical impulses from Peter Gülke, Jorma Panula, Nicolás Pasquet, Johannes Schlaefli, Alexander Polyanichko, Bruno Weil and others. During his studies, he worked with the NDR Vokalensemble, the NDR Elbphilharmonie Orchestra and collaborated with the theater choirs of the Semperoper Dresden and the Gärtnerplatztheater Munich. Currently, Ruben is choral director and Kapellmeister at the Theater Hof (Germany), where he was entrusted with the musical direction of <i>Peterchens Mondfahrt</i> and has conducted several performances of various productions, including Bizet’s <i>Les Pêcheurs de Perles</i> and Humperdinck’s <i>Dornröschen</i>. He also serves as chief conductor of both the Junges Mozart Orchester and the Mozart Kinderorchester Salzburg, with which he led a concert at the 2025 Salzburger Festspiele.
+    </p>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="w3-black" id="CALENDAR">
+  <div class="w3-container w3-content w3-padding-64" style="max-width:1000px">
+    <h2 class="w3-wide w3-center" data-i18n="calendar_title">Calendar</h2>
+    <p class="w3-opacity w3-center"><i data-i18n="calendar_upcoming">Upcoming Concerts</i></p><br>
+
+    <div class="calendar-grid">
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Thu 26 March 2026</p>
+          <p class="calendar-place">Selb, Rosenthal Theater</p>
+          <h3 class="calendar-title">Die Bajadere</h3>
+          <p class="calendar-subtitle">E. Kálmán</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-bajadere');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 2 May 2026 (Premiere)</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Romeo und Julia</h3>
+          <p class="calendar-subtitle">R. Zandonai</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/romeo-und-julia');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+    </div>
+
+    <br><br>
+    <p class="w3-opacity w3-center"><i data-i18n="calendar_past">Past Concerts</i></p><br>
+
+    <div class="calendar-grid">
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sun 18 January 2026</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Die Bajadere</h3>
+          <p class="calendar-subtitle">E. Kálmán</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-bajadere');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 24 January 2026</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Die Bajadere</h3>
+          <p class="calendar-subtitle">E. Kálmán</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-bajadere');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Fri 26 December 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Eugen Onegin</h3>
+          <p class="calendar-subtitle">P. I. Tchaikovsky</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/eugen-onegin');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sun 30 November 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Monty Python's Not the Messiah</h3>
+          <p class="calendar-subtitle">E. Idle &amp; J. Du Prez</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/monty-pythons-not-the-messiah');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Fri 21 November 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Monty Python's Not the Messiah</h3>
+          <p class="calendar-subtitle">E. Idle &amp; J. Du Prez</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/monty-pythons-not-the-messiah');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 19 July 2025</p>
+          <p class="calendar-place">Salzburg, Universitätsaula</p>
+          <h3 class="calendar-title">Opening Concert Salzburger Festival</h3>
+          <p class="calendar-subtitle">Junges Mozart Orchester</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.salzburgerfestspiele.at/p/familienkonzert-orchesterakademie-salzburg-traeumte-so-vor-mich-hin-2025');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Wed 16 July 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Les pêcheurs de perles</h3>
+          <p class="calendar-subtitle">G. Bizet</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-perlenfischer');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 12 July 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Les pêcheurs de perles</h3>
+          <p class="calendar-subtitle">G. Bizet</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-perlenfischer');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sun 06 July 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Les pêcheurs de perles</h3>
+          <p class="calendar-subtitle">G. Bizet</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-perlenfischer');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Fri 04 July 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Les pêcheurs de perles</h3>
+          <p class="calendar-subtitle">G. Bizet</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-perlenfischer');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 28 June 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Les pêcheurs de perles</h3>
+          <p class="calendar-subtitle">G. Bizet</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/die-perlenfischer');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sat 26 April 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Titanic</h3>
+          <p class="calendar-subtitle">Peter Stone and Maury Yeston</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/titanic-das-musical');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Fri 25 April 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Titanic</h3>
+          <p class="calendar-subtitle">Peter Stone and Maury Yeston</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/titanic-das-musical');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Wed 12 February 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Märchen im Grand-Hotel</h3>
+          <p class="calendar-subtitle">Paul Abraham</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/maerchen-im-grand-hotel');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sun 26 January 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Märchen im Grand Hotel</h3>
+          <p class="calendar-subtitle">Paul Abraham</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/maerchen-im-grand-hotel');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Fri 24 January 2025</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Märchen im Grand Hotel</h3>
+          <p class="calendar-subtitle">Paul Abraham</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/maerchen-im-grand-hotel');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Wed 18 December 2024</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Dornröschen</h3>
+          <p class="calendar-subtitle">E. Humperdinck</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/dornroeschen');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Sun 15 December 2024</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Dornröschen</h3>
+          <p class="calendar-subtitle">E. Humperdinck</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/dornroeschen');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">Thu 21 November 2024</p>
+          <p class="calendar-place">Theater Hof, Großes Haus</p>
+          <h3 class="calendar-title">Peterchens Mondfahrt</h3>
+          <p class="calendar-subtitle">L. Birzer</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.theater-hof.de/spielplan/stuecke/detail/peterchens-mondfahrt');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+      <div class="calendar-card">
+        <div>
+          <p class="calendar-date">1–3 July 2024</p>
+          <p class="calendar-place">Bad Ischl, Lehar Theater</p>
+          <h3 class="calendar-title">Bat Bomb</h3>
+          <p class="calendar-subtitle">A. R. Schweiß</p>
+        </div>
+        <button class="w3-button w3-black calendar-button" onclick="window.open('https://www.salzkammergut-2024.at/projekte/short-operetta-festival/');" data-i18n="details_tickets">Details/Tickets</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PHOTOS -->
+<div class="w3-white" id="PHOTOS">
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
+    <h2 class="w3-wide" data-i18n="photos_title">Photos</h2>
+    <p class="w3-opacity"><i data-i18n="photos_subtitle">can be used for professional purposes</i></p>
+
+    <div class="w3-row w3-padding-32">
+      <div class="w3-third">
+        <p data-i18n="portrait_photo">Portrait Photo</p>
+        <p class="w3-opacity"><i>© Harald Dietz</i></p>
+        <img src="portrait.jpg" class="w3-round w3-margin-bottom" alt="Portrait photo" style="width:60%">
+        <button class="w3-button w3-black w3-margin-bottom"
+                onclick="const link = document.createElement('a'); link.href = 'portraithd.jpg'; link.download = 'portraithd.jpg'; link.click();"
+                data-i18n="download">
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIA -->
+<div class="w3-black" id="MEDIA">
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+    <h2 class="w3-wide w3-center" data-i18n="media_title">MEDIA</h2>
+    <p class="w3-opacity w3-center"><i data-i18n="media_subtitle">All live recordings</i></p><br>
+
+    <h3 class="w3-wide w3-center">Mendelssohn: 3rd Symphony, 2nd Mvt</h3>
+    <p class="w3-center">
+      <button class="w3-button w3-white w3-margin-bottom" onclick="window.open('https://youtu.be/kOe74V6fth4', '_blank');" data-i18n="watch_here">Watch here</button>
+    </p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="w3-white" id="CONTACT">
+  <div class="w3-container w3-content w3-padding-64" style="max-width:700px">
+    <h2 class="w3-wide w3-center" data-i18n="contact_title">CONTACT</h2>
+    <p class="w3-opacity w3-center"><i data-i18n="contact_subtitle">Fan or Booking? Drop a note!</i></p>
+
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker" style="width:30px"></i> Hof, DE<br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: 0(049)92281-7070-109<br>
+        <i class="fa fa-envelope" style="width:30px"></i> Email: contact@rubenhawer.com <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image -->
+<div style="text-align: center;">
+  <img src="perl1.jpg" class="w3-image w3-greyscale-min" style="max-width:600px" alt="Photo">
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+const translations = {
+  de: {
+    nav_about: "ÜBER MICH",
+    nav_calendar: "KALENDER",
+    nav_photos: "FOTOS",
+    nav_media: "MEDIEN",
+    nav_contact: "KONTAKT",
+    about_title: "Über mich",
+    about_text: "Ruben Hawer ist ein niederländischer Dirigent. Er studierte Orchesterdirigieren bei Prof. Ulrich Windfuhr in Hamburg und Prof. Jorge Rotter in Salzburg. Wichtige musikalische Impulse erhielt er außerdem von Peter Gülke, Jorma Panula, Nicolás Pasquet, Johannes Schlaefli, Alexander Polyanichko, Bruno Weil und anderen. Während seines Studiums arbeitete er mit dem NDR Vokalensemble, dem NDR Elbphilharmonie Orchester und den Theaterchören der Semperoper Dresden sowie des Gärtnerplatztheaters München zusammen. Derzeit ist Ruben Chordirektor und Kapellmeister am Theater Hof, wo ihm die musikalische Leitung von <i>Peterchens Mondfahrt</i> anvertraut wurde und wo er zahlreiche Vorstellungen verschiedener Produktionen dirigierte, darunter Bizets <i>Les Pêcheurs de Perles</i> und Humperdincks <i>Dornröschen</i>. Darüber hinaus ist er Chefdirigent des Jungen Mozart Orchesters und des Mozart Kinderorchesters Salzburg, mit denen er 2025 ein Konzert bei den Salzburger Festspielen leitete.",
+    calendar_title: "Kalender",
+    calendar_upcoming: "Kommende Konzerte",
+    calendar_past: "Vergangene Konzerte",
+    details_tickets: "Details / Tickets",
+    photos_title: "Fotos",
+    photos_subtitle: "können für professionelle Zwecke verwendet werden",
+    portrait_photo: "Portraitfoto",
+    download: "Download",
+    media_title: "MEDIEN",
+    media_subtitle: "Alle Live-Aufnahmen",
+    watch_here: "Hier ansehen",
+    contact_title: "KONTAKT",
+    contact_subtitle: "Fan oder Booking? Schreib gern eine Nachricht."
+  },
+  en: {
+    nav_about: "ABOUT ME",
+    nav_calendar: "CALENDAR",
+    nav_photos: "PHOTOS",
+    nav_media: "MEDIA",
+    nav_contact: "CONTACT",
+    about_title: "About me",
+    about_text: "Ruben Hawer is a Dutch conductor. He studied orchestral conducting with Prof. Ulrich Windfuhr in Hamburg and Prof. Jorge Rotter in Salzburg. He also received important musical impulses from Peter Gülke, Jorma Panula, Nicolás Pasquet, Johannes Schlaefli, Alexander Polyanichko, Bruno Weil and others. During his studies, he worked with the NDR Vokalensemble, the NDR Elbphilharmonie Orchestra and collaborated with the theater choirs of the Semperoper Dresden and the Gärtnerplatztheater Munich. Currently, Ruben is choral director and Kapellmeister at the Theater Hof (Germany), where he was entrusted with the musical direction of <i>Peterchens Mondfahrt</i> and has conducted several performances of various productions, including Bizet’s <i>Les Pêcheurs de Perles</i> and Humperdinck’s <i>Dornröschen</i>. He also serves as chief conductor of both the Junges Mozart Orchester and the Mozart Kinderorchester Salzburg, with which he led a concert at the 2025 Salzburger Festspiele.",
+    calendar_title: "Calendar",
+    calendar_upcoming: "Upcoming Concerts",
+    calendar_past: "Past Concerts",
+    details_tickets: "Details / Tickets",
+    photos_title: "Photos",
+    photos_subtitle: "can be used for professional purposes",
+    portrait_photo: "Portrait Photo",
+    download: "Download",
+    media_title: "MEDIA",
+    media_subtitle: "All live recordings",
+    watch_here: "Watch here",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan or Booking? Drop a note!"
+  },
+  fr: {
+    nav_about: "À PROPOS",
+    nav_calendar: "CALENDRIER",
+    nav_photos: "PHOTOS",
+    nav_media: "MÉDIAS",
+    nav_contact: "CONTACT",
+    about_title: "À propos",
+    about_text: "Ruben Hawer est un chef d’orchestre néerlandais. Il a étudié la direction d’orchestre avec le Prof. Ulrich Windfuhr à Hambourg et le Prof. Jorge Rotter à Salzbourg. Il a également reçu d’importantes impulsions musicales de Peter Gülke, Jorma Panula, Nicolás Pasquet, Johannes Schlaefli, Alexander Polyanichko, Bruno Weil et d’autres. Pendant ses études, il a travaillé avec le NDR Vokalensemble, l’Orchestre de l’Elbphilharmonie de la NDR et a collaboré avec les chœurs de la Semperoper de Dresde et du Gärtnerplatztheater de Munich. Actuellement, Ruben est chef de chœur et Kapellmeister au Theater Hof en Allemagne, où il a assuré la direction musicale de <i>Peterchens Mondfahrt</i> et dirigé plusieurs représentations de différentes productions, notamment <i>Les Pêcheurs de Perles</i> de Bizet et <i>Dornröschen</i> de Humperdinck. Il est également chef principal du Junges Mozart Orchester et du Mozart Kinderorchester Salzburg, avec lesquels il a dirigé un concert au Salzburger Festspiele en 2025.",
+    calendar_title: "Calendrier",
+    calendar_upcoming: "Concerts à venir",
+    calendar_past: "Concerts passés",
+    details_tickets: "Détails / Billets",
+    photos_title: "Photos",
+    photos_subtitle: "peuvent être utilisées à des fins professionnelles",
+    portrait_photo: "Photo de portrait",
+    download: "Télécharger",
+    media_title: "MÉDIAS",
+    media_subtitle: "Tous les enregistrements en direct",
+    watch_here: "Voir ici",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan ou booking ? Laissez un message."
+  },
+  nl: {
+    nav_about: "OVER MIJ",
+    nav_calendar: "AGENDA",
+    nav_photos: "FOTO'S",
+    nav_media: "MEDIA",
+    nav_contact: "CONTACT",
+    about_title: "Over mij",
+    about_text: "Ruben Hawer is een Nederlandse dirigent. Hij studeerde orkestdirectie bij prof. Ulrich Windfuhr in Hamburg en prof. Jorge Rotter in Salzburg. Daarnaast kreeg hij belangrijke muzikale impulsen van Peter Gülke, Jorma Panula, Nicolás Pasquet, Johannes Schlaefli, Alexander Polyanichko, Bruno Weil en anderen. Tijdens zijn studie werkte hij met het NDR Vokalensemble, het NDR Elbphilharmonie Orchester en met de koorafdelingen van de Semperoper Dresden en het Gärtnerplatztheater München. Momenteel is Ruben koordirigent en Kapellmeister aan Theater Hof in Duitsland, waar hij de muzikale leiding kreeg over <i>Peterchens Mondfahrt</i> en verschillende voorstellingen dirigeerde, waaronder Bizets <i>Les Pêcheurs de Perles</i> en Humperdincks <i>Dornröschen</i>. Daarnaast is hij chef-dirigent van zowel het Junges Mozart Orchester als het Mozart Kinderorchester Salzburg, waarmee hij in 2025 een concert leidde tijdens de Salzburger Festspiele.",
+    calendar_title: "Agenda",
+    calendar_upcoming: "Komende concerten",
+    calendar_past: "Afgelopen concerten",
+    details_tickets: "Details / Tickets",
+    photos_title: "Foto's",
+    photos_subtitle: "kunnen voor professionele doeleinden worden gebruikt",
+    portrait_photo: "Portretfoto",
+    download: "Download",
+    media_title: "MEDIA",
+    media_subtitle: "Alle live-opnames",
+    watch_here: "Hier bekijken",
+    contact_title: "CONTACT",
+    contact_subtitle: "Fan of booking? Stuur gerust een bericht."
+  }
+};
+
+function setLanguage(lang) {
+  const dict = translations[lang] || translations.en;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) {
+      el.innerHTML = dict[key];
+    }
+  });
+
+  localStorage.setItem("siteLanguage", lang);
+
+  document.querySelectorAll(".lang-switcher button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  document.querySelectorAll(`#btn-${lang}`).forEach(btn => {
+    btn.classList.add("active");
+  });
+}
+
+function detectLanguage() {
+  const saved = localStorage.getItem("siteLanguage");
+  if (saved && translations[saved]) return saved;
+
+  const browserLang = (navigator.language || "en").toLowerCase();
+  if (browserLang.startsWith("de")) return "de";
+  if (browserLang.startsWith("fr")) return "fr";
+  if (browserLang.startsWith("nl")) return "nl";
+  return "en";
+}
+
+// Slideshow
+var myIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  myIndex++;
+  if (myIndex > x.length) { myIndex = 1; }
+  x[myIndex - 1].style.display = "block";
+  setTimeout(carousel, 4000);
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") === -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+setLanguage(detectLanguage());
+</script>
+
+</body>
+</html>
